@@ -1,6 +1,7 @@
+"""Functions to handle api calls to scryfall and manage saved scryfall data"""
+
 import requests
 import json
-
 
 def jprint(obj):
     # create a formatted string of the Python JSON object
@@ -17,7 +18,7 @@ def loadcarddata(update=False):
                 scrydata = json.load(f)
                 print('Scryfall card data located')
         except FileNotFoundError:
-            print('Scryfall card data not found, downloading now')
+            print('Scryfall card data not found, downloading now...')
             update = True
     if update:
         datadownload = requests.get(requests.get("https://api.scryfall.com/bulk-data").json()['data'][0]['download_uri'])
@@ -53,11 +54,12 @@ def downloadcardimage(cardname, scryfallcarddata, pref_size='normal'):
                 with open(imgfilename, "wb") as f:
                     f.write(cardimage.content)
             else:
+                # If selected image size is not available offer a selection of the available sizes IN PROGRESS
                 print('Available image sizes: ')
     else:
         print('Card not found')
 
 scryfallcarddata = loadcarddata()
-# downloadcardimage('Island', scryfallcarddata)
-jprint(getcarddata('Island', scryfallcarddata))
+downloadcardimage('Island', scryfallcarddata)
+# jprint(getcarddata('Hogaak, Arisen Necropolis', scryfallcarddata))
 

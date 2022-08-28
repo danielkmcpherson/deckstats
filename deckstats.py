@@ -5,4 +5,11 @@ class DeckStats:
 
     def __init__(self):
         """Initialize the program"""
-        # download scryfall data
+        self.deck = Deck()
+        
+
+
+if __name__ == '__main__':
+    # Make a game instance and run the game.
+    ds = DeckStats()
+    ds.run()
