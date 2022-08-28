@@ -7,12 +7,16 @@ def jprint(obj):
     text = json.dumps(obj, sort_keys=True, indent=4)
     print(text)
 
-filename = 'cardbulkdata.json'
-with open(filename) as f:
-    scrydata = json.load(f)
+def loadcarddata(update=None):
+    # Load in scryfall carddata
+    filename = 'cardbulkdata.json'
+    if update == None:
+        with open(filename) as f:
+            scrydata = json.load(f)
+    print(scrydata)
+    return scrydata
 
-jprint(scrydata)
-# today = dt.date.today()
+# jprint(scrydata)
 
 # response = requests.get("https://api.scryfall.com/bulk-data")
 # something = response.json()['data'][0]['download_uri']
