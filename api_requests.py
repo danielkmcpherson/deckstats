@@ -44,26 +44,3 @@ def downloadcardimage(cardname, scryfallcarddata):
 
 scryfalldata = loadcarddata()
 downloadcardimage('Narcomoeba', scryfalldata)
-
-
-# jprint(scrydata)
-
-# response = requests.get("https://api.scryfall.com/bulk-data")
-# something = response.json()['data'][0]['download_uri']
-# scrydata = requests.get(something)
-# filename = 'cardbulkdata.json'
-# with open(filename, 'w') as f:
-#     json.dump(scrydata.json(), f)
-#
-# cardname = 'Narcomoeba'
-# for card in range(len(scrydata)):
-#     if scrydata[card]['name'] == cardname:
-#         carddata = scrydata[card]
-#
-# art_types = carddata['image_uris'].keys()
-# for art_type in art_types:
-#     imageurl = carddata['image_uris'][art_type]
-#     cardimage = requests.get(imageurl)
-#     file = open(cardname + '_' + art_type + '.png', "wb")
-#     file.write(cardimage.content)
-#     file.close()
