@@ -1,6 +1,5 @@
 import requests
 import json
-import datetime as dt
 
 
 def jprint(obj):
@@ -28,19 +27,37 @@ def loadcarddata(update=False):
     return scrydata
 
 
-def downloadcardimage(cardname, scryfallcarddata):
-    # Download and save card images from scryfall
+def getcarddata(cardname, scryfallcarddata):
+    # Get available data on a named card
+    carddata=None
     for card in range(len(scryfallcarddata)):
         if scryfallcarddata[card]['name'] == cardname:
             carddata = scryfallcarddata[card]
-    art_types = carddata['image_uris'].keys()
-    for art_type in art_types:
-        imageurl = carddata['image_uris'][art_type]
-        cardimage = requests.get(imageurl)
-        file = open(cardname + '_' + art_type + '.png', "wb")
-        file.write(cardimage.content)
-        file.close()
+    if carddata is not None:
+        return carddata
+    else:
+        print('Card not found')
 
 
-scryfalldata = loadcarddata()
-downloadcardimage('Narcomoeba', scryfalldata)
+def downloadcardimage(cardname, scryfallcarddata, pref_size='normal'):
+    # Download and save card images from scryfall
+    carddata=None
+    for card in range(len(scryfallcarddata)):
+        if scryfallcarddata[card]['name'] == cardname:
+            carddata = scryfallcarddata[card]
+    if carddata is not None:
+            art_types = carddata['image_uris'].keys()
+            if pref_size in art_types:
+                cardimage = requests.get(carddata['image_uris'][pref_size])
+                imgfilename = cardname + '.png'
+                with open(imgfilename, "wb") as f:
+                    f.write(cardimage.content)
+            else:
+                print('Available image sizes: ')
+    else:
+        print('Card not found')
+
+scryfallcarddata = loadcarddata()
+# downloadcardimage('Island', scryfallcarddata)
+jprint(getcarddata('Island', scryfallcarddata))
+
