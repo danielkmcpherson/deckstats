@@ -37,10 +37,11 @@ def getcarddata(cardname, scryfallcarddata):
     if carddata is not None:
         return carddata
     else:
-        print('Card not found')
+        print('Card ' + cardname + ' not found')
+        return None
 
 
-def downloadcardimage(cardname, scryfallcarddata, pref_size='normal'):
+def downloadcardimage(savedirectory, cardname, scryfallcarddata, pref_size='normal'):
     # Download and save card images from scryfall
     carddata=None
     for card in range(len(scryfallcarddata)):
@@ -50,7 +51,7 @@ def downloadcardimage(cardname, scryfallcarddata, pref_size='normal'):
             art_types = carddata['image_uris'].keys()
             if pref_size in art_types:
                 cardimage = requests.get(carddata['image_uris'][pref_size])
-                imgfilename = cardname + '.png'
+                imgfilename = savedirectory + cardname + '.png'
                 with open(imgfilename, "wb") as f:
                     f.write(cardimage.content)
             else:
@@ -59,7 +60,8 @@ def downloadcardimage(cardname, scryfallcarddata, pref_size='normal'):
     else:
         print('Card not found')
 
-scryfallcarddata = loadcarddata()
-downloadcardimage('Island', scryfallcarddata)
-# jprint(getcarddata('Hogaak, Arisen Necropolis', scryfallcarddata))
+if __name__ == '__main__':
+    scryfallcarddata = loadcarddata()
+    # downloadcardimage('Mountain', scryfallcarddata)
+    # jprint(getcarddata('Hogaak, Arisen Necropolis', scryfallcarddata))
 
