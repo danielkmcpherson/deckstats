@@ -1,6 +1,8 @@
 """Functions to read in a decklist and assign parameters to the cards it contains"""
 from api_requests import jprint, loadcarddata, getcarddata, downloadcardimage
 import os
+import json
+
 
 def make_deck_folder(deckfilename):
     deckfoldername = deckfilename.split('.')[0]
@@ -8,6 +10,7 @@ def make_deck_folder(deckfilename):
         os.mkdir(deckfoldername)
         os.mkdir(deckfoldername + '/images')
     return deckfoldername
+
 
 def decklist_readin(deckfilename):
 
@@ -43,12 +46,22 @@ def decklist_readin(deckfilename):
 
     return maindeck, sideboard
 
-def assignparams(cardlist, carddata):
+
+def assignparams(deckfilename, cardlist, carddata):
+    deckfoldername = make_deck_folder(deckfilename)
     assignedcardlist = []
     for card in cardlist:
         assignedcard = getcarddata(card, carddata)
         assignedcardlist.append(assignedcard)
+    if len(assignedcardlist) == 15:
+        listtype = 'sideboard'
+    else:
+        listtype = 'maindeck'
+    filename = deckfoldername + '/' + listtype + '.json'
+    with open(filename, 'w') as f:
+        json.dump(assignedcardlist, f)
     return assignedcardlist
+
 
 def getdeckimages(deckfilename, cardlist, carddata):
     deckfoldername = make_deck_folder(deckfilename)
@@ -57,11 +70,12 @@ def getdeckimages(deckfilename, cardlist, carddata):
 
 
 if __name__ == '__main__':
-    deckname = 'Deck - Spirits v11.txt'
+    deckname = 'Deck - Living End.txt'
     maindeck, sideboard = decklist_readin(deckname)
     carddata = loadcarddata()
-    assignedmaindeck = assignparams(maindeck, carddata)
-    assignedsideboard = assignparams(sideboard, carddata)
+    assignedmaindeck = assignparams(deckname, maindeck, carddata)
+    assignedsideboard = assignparams(deckname, sideboard, carddata)
     getdeckimages(deckname, maindeck, carddata)
     getdeckimages(deckname, sideboard, carddata)
+    jprint(assignedmaindeck)
     # jprint(assignedsideboard)
