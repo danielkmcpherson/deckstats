@@ -19,14 +19,16 @@ def loadcarddata(update=False):
                 scrydata = json.load(f)
                 print('Scryfall card data located')
         except FileNotFoundError:
-            print('Scryfall card data not found, downloading now...')
+            print('Scryfall card data not found')
             update = True
     if update:
+        print('Downloading Scryfall Data...')
         datadownload = requests.get(
             requests.get("https://api.scryfall.com/bulk-data").json()['data'][0]['download_uri'])
         with open(filename, 'w') as f:
             json.dump(datadownload.json(), f)
         scrydata = datadownload.json()
+        print('Scryfall data downloaded')
     return scrydata
 
 
