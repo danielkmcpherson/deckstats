@@ -68,14 +68,16 @@ def getdeckimages(deckfilename, cardlist, carddata):
     for card in cardlist:
         downloadcardimage(deckfoldername + '/images/', card, carddata)
 
-
-if __name__ == '__main__':
-    deckname = 'Deck - Living End.txt'
-    maindeck, sideboard = decklist_readin(deckname)
+def run(deckname):
     carddata = loadcarddata()
+    maindeck, sideboard = decklist_readin(deckname)
     assignedmaindeck = assignparams(deckname, maindeck, carddata)
     assignedsideboard = assignparams(deckname, sideboard, carddata)
     getdeckimages(deckname, maindeck, carddata)
     getdeckimages(deckname, sideboard, carddata)
-    jprint(assignedmaindeck)
-    # jprint(assignedsideboard)
+    return assignedmaindeck, assignedsideboard
+
+if __name__ == '__main__':
+    deckname = 'Deck - Spirits v13.txt'
+    maindeck, sideboard = run(deckname)
+    jprint(sideboard)
