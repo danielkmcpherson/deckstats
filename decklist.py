@@ -78,6 +78,6 @@ def run(deckname):
     return assignedmaindeck, assignedsideboard
 
 if __name__ == '__main__':
-    deckname = 'Deck - Bant Rec.txt'
+    deckname = 'Deck - Spirits v11.txt'
     maindeck, sideboard = run(deckname)
     # jprint(maindeck)
